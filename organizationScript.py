@@ -69,9 +69,13 @@ for path in listofPaths:
                 
         #Important documents
         elif(path.find("Important") != -1 or path.find("Alejandro") != -1):
+            if(not os.path.exists(outputDir2)):
+                os.mkdir(outputDir2)
             shutil.move(path, outputDir2)
         #Other documents
         elif(path.find(".pdf") != -1):
+            if(not os.path.exists(outputDir3)):
+                os.mkdir(outputDir3)
             shutil.move(path, outputDir3)
         
 
