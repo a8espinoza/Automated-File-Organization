@@ -38,31 +38,32 @@ for path in listofPaths:
     if(os.path.isfile(path)):
         #All Homework
         if(path.find("HW") != -1 or path.find("TextBook") != -1):
+            #create path if it does not exists
+            if(not os.path.exists(outputDir1)):
+                os.mkdir(outputDir1)
+            #sort through all possible courses
             if(path.find("20E") != -1):
-                class1Dir = outputDir1 + "/Math 20E"
-                print(class1Dir)
-                if(not os.path.exists(class1Dir)):
-                    os.mkdir(class1Dir)
-                shutil.move(path, class1Dir)
+                course1Dir = outputDir1 + "/Math 20E"
+                if(not os.path.exists(course1Dir)):
+                    os.mkdir(course1Dir)
+                shutil.move(path, course1Dir)
             elif(path.find("103A") != -1):
-                class2Dir = outputDir1 + "/Math 103A"
-                print(class2Dir)
-                if(not os.path.exists(class2Dir)):
-                    os.mkdir(class2Dir)
-                shutil.move(path, class2Dir)
+                course2Dir = outputDir1 + "/Math 103A"
+                if(not os.path.exists(course2Dir)):
+                    os.mkdir(course2Dir)
+                shutil.move(path, course2Dir)
             elif(path.find("154") != -1):
-                class3Dir = outputDir1 + "/Math 154"
-                print(class3Dir)
-                if(not os.path.exists(class3Dir)):
-                    os.mkdir(class3Dir) #
-                shutil.move(path, class3Dir)
+                course3Dir = outputDir1 + "/Math 154"
+                if(not os.path.exists(course3Dir)):
+                    os.mkdir(course3Dir) #
+                shutil.move(path, course3Dir)
                 '''  
-            Uncomment this block for class4
-            elif(path.find("egclass") != -1):
-                class4Dir = outputDir1 + "egclass"
-                if(not os.path.exists(class4Dir)):
-                    os.mkdir(class4Dir)
-                shutil.move(path, class4Dir)
+            Uncomment this block for course4
+            elif(path.find("egcourse") != -1):
+                course4Dir = outputDir1 + "egcourse"
+                if(not os.path.exists(course4Dir)):
+                    os.mkdir(course4Dir)
+                shutil.move(path, course4Dir)
                    '''
             else:
                 shutil.move(path, outputDir1)
