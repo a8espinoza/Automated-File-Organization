@@ -13,13 +13,6 @@ outputDirectoryLocations = [
     os.path.join(inputDir, name) for name in outputDirectoryNames
 ]
 
-#outputDir1 = ["HW", "TextBook"]
-#outputDir1Subdir = ["Math 20E", "Math 103A", "Math 154"]
-#outputDir2 = ["Important", "Alejandro"]
-#outputDir2Subdir = []
-#outputDir3 = ["Misc", ".pdf", ".docx", ".txt"]
-#outputDir3Subdir = []
-
 #In the same order as outputDirectoryLocations, add the keywords that will be used to categorize the files.
 outputDirectyKeyWords = [
     ["HW", "TextBook"],
@@ -28,35 +21,39 @@ outputDirectyKeyWords = [
 ]
 #outputSubDirectories = [outputDir1Subdir, outputDir2Subdir, outputDir3Subdir]
 
-while True:
-    listOfPathsInInput = os.listdir(inputDir)  # Get the latest list of files
-    moved_files = 0  # Track if we moved anything
-
-    for file in listOfPathsInInput:
-        path = os.path.join(inputDir, file)  # Get the full path of the file
-        print(path)
-        #Move file to given Category Directory
-        if(os.path.isfile(path)):
-            #loop through all directories
-            for i in range(len(outputDirectories)):
-                #check if directory exists
-                if(not os.path.exists(outputDirectoryLocations[i])):
-                    os.mkdir(outputDirectoryLocations[i])
-                
-                for j in outputDirectories[i]:
-                    #check if given path contains given directory name
-                    if j in file:  # Check if filename contains a keyword
-                        dest_path = os.path.join(outputDirectoryLocations[i], file)
-                        #create path if it does not exists
-                        shutil.move(path, dest_path)
-                        moved_files += 1
-                        break
+# Create output directories if they don't exist
+for directory in outputDirectoryLocations:
+    if not os.path.exists(directory):
+        os.mkdir(directory)
 
 
-    if moved_files == 0:
-        break  # Exit loop if no files were moved
 
-                                
+listOfPathsInInput = os.listdir(inputDir)  # Get the latest list of files
+moved_files = 0  # Track if we moved anything
+
+for file in listOfPathsInInput:
+    path = os.path.join(inputDir, file)  # Get the full path of the file
+    print(path) # Debugging line to see the file paths
+
+    #Move file to given Category Directory
+    if(os.path.isfile(path)):
+        moved = False
+        #loop through all directories
+        for i in range(len(outputDirectoryLocations)):
+            #loop through all keywords for given directory
+            for keyword in outputDirectyKeyWords[i]:
+                #check if given path contains given directory name
+                if keyword in file:  # Check if filename contains a keyword
+                    dest_path = os.path.join(outputDirectoryLocations[i], file)
+                    shutil.move(path, dest_path)
+                    moved_files += 1
+                    print(f"Moved {file} to {outputDirectoryLocations[i]}")
+                    moved = True
+                    break #stop after first match
+                else:
+                    continue
+            if moved:
+                break                                
 
             
 
