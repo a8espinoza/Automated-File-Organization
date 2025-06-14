@@ -31,6 +31,7 @@ for directory in outputDirectoryLocations:
 listOfPathsInInput = os.listdir(inputDir)  # Get the latest list of files
 moved_files = 0  # Track if we moved anything
 
+# Loop through each file in the input directory
 for file in listOfPathsInInput:
     path = os.path.join(inputDir, file)  # Get the full path of the file
     print(path) # Debugging line to see the file paths
@@ -53,7 +54,10 @@ for file in listOfPathsInInput:
                 else:
                     continue
             if moved:
-                break                                
+                break      
+
+# Print the number of files moved
+print(f"Total files moved: {moved_files}")
 
             
 
