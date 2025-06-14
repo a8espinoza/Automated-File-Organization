@@ -4,60 +4,77 @@ import os, shutil
 inputDirString = "C:/Users/aleja/Desktop/FileOrganizer"
 inputDir = os.path.abspath(inputDirString)
 
-#add all names of directories you want to create
-outputDirectoryNames = ["output1", "output2", "output3"]
-numberOfOutputs = len(outputDirectoryNames)
-
-#create all output directories
-outputDirectoryLocations = [
-    os.path.join(inputDir, name) for name in outputDirectoryNames
+outputGroups = [
+    {
+        "name": "output1",
+        "keywords": ["HW", "TextBook"],
+        "subdirs": {
+            "Math 20E": ["20E"],
+            "Math 103A": ["103A"],
+            "Math 154": ["154"]
+        }
+    },
+    {
+        "name": "output2",
+        "keywords": ["Important", "Alejandro"],
+        "subdirs": {}
+    },
+    {
+        "name": "output3",
+        "keywords": ["Misc", ".pdf", ".docx", ".txt"],
+        "subdirs": {}
+    }
 ]
 
-#In the same order as outputDirectoryLocations, add the keywords that will be used to categorize the files.
-outputDirectyKeyWords = [
-    ["HW", "TextBook"],
-    ["Important", "Alejandro"],
-    ["Misc", ".pdf", ".docx", ".txt"],
-]
-#outputSubDirectories = [outputDir1Subdir, outputDir2Subdir, outputDir3Subdir]
+# All subfunctions that will feed into main loop here:
+def checkPathExists(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
 
-# Create output directories if they don't exist
-for directory in outputDirectoryLocations:
-    if not os.path.exists(directory):
-        os.mkdir(directory)
+# returns True if filename contains any of the keywords
+def matches_any_keyword(filename, keywords):
+    name, ext = os.path.splitext(filename)
+    #return true if at least one keyword is a match
+    for keyword in keywords:
+        if (keyword in name) or (keyword == ext):
+            return True
+    #else:
+    return False
 
+# moves file to correct output and returns True if successful
+def move_file_to_output(filePath, fileName):
+    for current_Output in outputGroups:
+        # Check if file matches any of the keywords
+        if matches_any_keyword(fileName, current_Output["keywords"]):
+            base_output = os.path.join(inputDir, current_Output["name"])
+            checkPathExists(base_output)
 
+            # Try to match subdirectory
+            for subdir, sub_keywords in current_Output["subdirs"].items():
+                if matches_any_keyword(fileName, sub_keywords):
+                    full_subdir = os.path.join(base_output, subdir)
+                    checkPathExists(full_subdir)
+                    shutil.move(filePath, os.path.join(full_subdir, fileName))
+                    print(f"Moved {fileName} to {full_subdir}")
+                    return True
 
-listOfPathsInInput = os.listdir(inputDir)  # Get the latest list of files
-moved_files = 0  # Track if we moved anything
+            # No match found, move into base folder
+            shutil.move(filePath, os.path.join(base_output, fileName))
+            print(f"Moved {fileName} to {base_output}")
+            return True
+    return False
 
-# Loop through each file in the input directory
-for file in listOfPathsInInput:
-    path = os.path.join(inputDir, file)  # Get the full path of the file
-    print(path) # Debugging line to see the file paths
+# Main loop
+moved_files = 0
+for file in os.listdir(inputDir):
+    path = os.path.join(inputDir, file)
+    if os.path.isfile(path):
+        if move_file_to_output(path, file):
+            moved_files += 1
 
-    #Move file to given Category Directory
-    if(os.path.isfile(path)):
-        moved = False
-        #loop through all directories
-        for i in range(len(outputDirectoryLocations)):
-            #loop through all keywords for given directory
-            for keyword in outputDirectyKeyWords[i]:
-                #check if given path contains given directory name
-                if keyword in file:  # Check if filename contains a keyword
-                    dest_path = os.path.join(outputDirectoryLocations[i], file)
-                    shutil.move(path, dest_path)
-                    moved_files += 1
-                    print(f"Moved {file} to {outputDirectoryLocations[i]}")
-                    moved = True
-                    break #stop after first match
-                else:
-                    continue
-            if moved:
-                break      
 
 # Print the number of files moved
-print(f"Total files moved: {moved_files}")
+print(f"\nTotal files moved: {moved_files}")
 
             
 
