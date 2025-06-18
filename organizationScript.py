@@ -1,9 +1,14 @@
-import os, shutil
+import os, shutil, sys
 
-#add main file to organize here
+# add main file to organize here
 inputDirString = "C:/Users/aleja/Desktop/FileOrganizer"
 inputDir = os.path.abspath(inputDirString)
 
+# import values from system arguments if provided
+args = sys.argv
+
+
+# defuautl outputGroups which can be modified
 outputGroups = [
     {
         "name": "output1",
@@ -94,17 +99,20 @@ def move_file_to_output(filePath, fileName):
             return True
     return False
 
-# Main loop
-moved_files = 0
-for file in os.listdir(inputDir):
-    path = os.path.join(inputDir, file)
-    if os.path.isfile(path):
-        if move_file_to_output(path, file):
-            moved_files += 1
+# Main loop if no arguments are provided
+if(len(args) <= 1):
+    moved_files = 0
+    for file in os.listdir(inputDir):
+        path = os.path.join(inputDir, file)
+        if os.path.isfile(path):
+            if move_file_to_output(path, file):
+                moved_files += 1
+
+    # Print the number of files moved
+    print(f"\nTotal files moved: {moved_files}")
 
 
-# Print the number of files moved
-print(f"\nTotal files moved: {moved_files}")
+
 
             
 
