@@ -26,6 +26,36 @@ outputGroups = [
     }
 ]
 
+# Creates new outputGroup dictionary (helper function)
+def create_output_group(name, keywords, subdirNames = None, subdirValueArrays = None):
+    subdir = create_subdir_dict(subdirNames, subdirValueArrays)
+
+    return {
+        "name": name,
+        "keywords": keywords,
+        "subdirs": subdir
+    }
+
+# creates subdirectory dictionary (helper function)
+def create_subdir_dict(keys = None, valueArrays = None):
+    subdir_dict = {}
+
+    if (keys is None) or (valueArrays is None):
+        return subdir_dict
+    else:
+        for key, valueArray in zip(keys, valueArrays):
+            subdir_dict[key] = valueArray
+        return subdir_dict
+    
+
+
+#add new output group to outputGroups using create_output_group
+def add_output_group(name, keywords, subdirNames = None, subdirValueArrays = None):
+    new_group = create_output_group(name, keywords, subdirNames, subdirValueArrays)
+    outputGroups.append(new_group)
+    print(f"Added new output group: {name}")
+
+
 # All subfunctions that will feed into main loop here:
 def checkPathExists(path):
     if not os.path.exists(path):
