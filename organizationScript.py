@@ -6,6 +6,8 @@ inputDir = os.path.abspath(inputDirString)
 
 # import values from system arguments if provided
 args = sys.argv
+if len(args) > 1:
+    function = args[1]
 
 
 # defuautl outputGroups which can be modified
@@ -99,6 +101,11 @@ def move_file_to_output(filePath, fileName):
             return True
     return False
 
+def print_groups():
+    print("Current output groups:")
+    for group in outputGroups:
+        print(f"Group Name: {group['name']}, Keywords: {group['keywords']}, Subdirs: {group['subdirs']}")
+
 # Main loop if no arguments are provided
 if(len(args) <= 1):
     moved_files = 0
@@ -110,6 +117,46 @@ if(len(args) <= 1):
 
     # Print the number of files moved
     print(f"\nTotal files moved: {moved_files}")
+
+if(function == 'addGroup'):
+    # Template:
+    # add_output_group(name, keywords, subdirNames = None, subdirValueArrays = None)
+
+    if(len(args) != 2):
+        print("Please only provide the function name 'addGroup' to add a new output group.")
+
+    name = input("Please enter the name of the new output group: ")
+    keywords = input("Please enter the keywords for the new output group as comma seperated valyes: ").replace(" ", "").split(',')
+    has_subdirs = input("Does this output group have subdirectories? (yes/no): ").strip().lower()
+
+    if has_subdirs == 'yes':
+        numOfSubdirs = input("How many subdirectories does this output group have? ")
+
+        for i in range(int(numOfSubdirs)):
+            subdirName = input(f"Please enter the name of subdirectory {i+1}: ")
+            subdirValues = input(f"Please enter the keywords for subdirectory {subdirName} as comma separated values: ").replace(" ", "").split(',')
+            
+            if i == 0:
+                subdirNames = [subdirName]
+                subdirValueArrays = [subdirValues]
+            else:
+                subdirNames.append(subdirName)
+                subdirValueArrays.append(subdirValues)
+    else:
+        subdirNames = None
+        subdirValueArrays = None
+
+    # Now with all attained information, we can add the output group
+    add_output_group(name, keywords, subdirNames, subdirValueArrays)
+
+    #Let user know that the output group was added
+    print(f"Output group '{name}' added with keywords {keywords} and subdirs {subdirNames if subdirNames else 'None'}.")
+    print_groups()
+            
+if(function == 'printGroups'):
+    print_groups()
+
+
 
 
 
