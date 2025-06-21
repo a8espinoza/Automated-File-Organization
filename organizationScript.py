@@ -3,36 +3,14 @@ import os, shutil, sys, json
 # add main file to organize here
 inputDirString = "C:/Users/aleja/Desktop/FileOrganizer"
 inputDir = os.path.abspath(inputDirString)
+OUTPUT_FILE = "personal_output_groups.json"
 
 # import values from system arguments if provided
 args = sys.argv
 if len(args) > 1:
     function = args[1]
 
-OUTPUT_FILE = "personal_output_groups.json"
 
-# default outputGroups which can be modified
-# outputGroups = [
-#     {
-#         "name": "output1",
-#         "keywords": ["HW", "TextBook"],
-#         "subdirs": {
-#             "Math 20E": ["20E"],
-#             "Math 103A": ["103A"],
-#             "Math 154": ["154"]
-#         }
-#     },
-#     {
-#         "name": "output2",
-#         "keywords": ["Important", "Alejandro"],
-#         "subdirs": {}
-#     },
-#     {
-#         "name": "output3",
-#         "keywords": ["Misc", ".pdf", ".docx", ".txt"],
-#         "subdirs": {}
-#     }
-# ]
 # Load existing output groups from file if it exists
 def load_output_groups():
     if os.path.exists(OUTPUT_FILE):
@@ -58,6 +36,7 @@ def create_output_group(name, keywords, subdirNames = None, subdirValueArrays = 
         "subdirs": subdir
     }
 
+
 # creates subdirectory dictionary (helper function)
 def create_subdir_dict(keys = None, valueArrays = None):
     subdir_dict = {}
@@ -69,7 +48,6 @@ def create_subdir_dict(keys = None, valueArrays = None):
             subdir_dict[key] = valueArray
         return subdir_dict
     
-
 
 #add new output group to outputGroups using create_output_group
 def add_output_group(name, keywords, subdirNames = None, subdirValueArrays = None):
@@ -84,6 +62,7 @@ def checkPathExists(path):
     if not os.path.exists(path):
         os.makedirs(path)
 
+
 # returns True if filename contains any of the keywords
 def matches_any_keyword(filename, keywords):
     name, ext = os.path.splitext(filename)
@@ -93,6 +72,7 @@ def matches_any_keyword(filename, keywords):
             return True
     #else:
     return False
+
 
 # moves file to correct output and returns True if successful
 def move_file_to_output(filePath, fileName):
@@ -117,12 +97,14 @@ def move_file_to_output(filePath, fileName):
             return True
     return False
 
+
 # Function to print current output groups
 def print_groups():
     print("Current output groups:")
     for group in outputGroups:
         print(f"Group Name: {group['name']}, Keywords: {group['keywords']}, Subdirs: {group['subdirs']}")
 
+# load in output groups from file
 outputGroups = load_output_groups()
 
 # Main loop if no arguments are provided
@@ -174,5 +156,20 @@ elif(function == 'addGroup'):
             
 elif(function == 'printGroups'):
     print_groups()
+
+elif(function == 'help'):
+    print("\n")
+    print("Main Function: ")
+    print("-  If no arguments are provided, the script will organize files \n"
+        "      in the input directory based on existing output groups.")
+    print("-  To run the main function, simply run the script without arguments like so: \n"
+          "      python organizationScript.py\n")
+    print("Available Secondary functions:")
+    print("1. addGroup - Add a new output group")
+    print("2. printGroups - Print current output groups")
+    print("3. help - Show this help message\n")
+    print("To use a secondary function, run the script with the function name as an argument like so: ")
+    print("python organizationScript.py <function_name>\n")
+
 
 
