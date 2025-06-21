@@ -4,7 +4,6 @@ import os, shutil, sys, json
 data = {}
 OUTPUT_FILE = "saved_data.json"
 BACKUP_FILE = "default_saved_data.json"
-# Default input directory string: C:/Users/user/Desktop/<DirectoryToBeOrganized>
 
 
 # import values from system arguments if provided
@@ -13,6 +12,7 @@ if len(args) > 1:
     function = args[1]
 
 
+# Ensures that the input directory is set correctly
 def check_input_directory():
     global inputDir, inputDirString, data
     if inputDirString == "C:/Users/user/Desktop/<DirectoryToBeOrganized>":
@@ -211,9 +211,6 @@ if(len(args) <= 1):
     print(f"\nTotal files moved: {moved_files}")
 
 elif(function == 'addGroup'):
-    # Template:
-    # add_output_group(name, keywords, subdirNames = None, subdirValueArrays = None)
-
     if(len(args) != 2):
         print("Please only provide the function name 'addGroup' to add a new output group.")
 
