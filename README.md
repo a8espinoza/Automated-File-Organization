@@ -2,13 +2,13 @@
 
 This python project can read through a given directory and organize the files inside
 by putting them into folders and subfolders which can be customized by the user
-via the in terminal functions
+via the in terminal functions 
 
 Instructions for Use:
 Main Function:
 -  If no arguments are provided, the script will organize files
       in the input directory based on existing output groups.
--  To run the main function, simply run the script without arguments like so:
+-  To run the main function, simply run the script without arguments like so: <br />
       python organizationScript.py
 
 Available Secondary functions:
@@ -16,5 +16,5 @@ Available Secondary functions:
 2. printGroups - Print current output groups
 3. help - Show this help message
 
-To use a secondary function, run the script with the function name as an argument like so:
+To use a secondary function, run the script with the function name as an argument like so: <br />
 python organizationScript.py <function_name>
