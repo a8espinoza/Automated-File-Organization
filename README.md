@@ -15,6 +15,8 @@ Available Secondary functions:
 1. addGroup - Add a new output group
 2. printGroups - Print current output groups
 3. help - Show this help message
+4. changeDirectory - Change the input directory to a new path
+5. revert - Revert to default settings
 
 To use a secondary function, run the script with the function name as an argument like so: <br />
 python organizationScript.py <function_name>
