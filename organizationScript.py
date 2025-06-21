@@ -1,4 +1,4 @@
-import os, shutil, sys
+import os, shutil, sys, json
 
 # add main file to organize here
 inputDirString = "C:/Users/aleja/Desktop/FileOrganizer"
@@ -9,8 +9,10 @@ args = sys.argv
 if len(args) > 1:
     function = args[1]
 
+OUTPUT_FILE = "output_groups.json"
 
-# defuautl outputGroups which can be modified
+
+# default outputGroups which can be modified
 outputGroups = [
     {
         "name": "output1",
@@ -32,6 +34,20 @@ outputGroups = [
         "subdirs": {}
     }
 ]
+# Load existing output groups from file if it exists
+def load_output_groups():
+
+    if os.path.exists(OUTPUT_FILE):
+        with open(OUTPUT_FILE, "r") as file:
+            return json.load(file)
+    else:
+        return []
+
+# save new output group to file
+def save_output_groups():
+    with open(OUTPUT_FILE, "w") as file:
+        json.dump(outputGroups, file, indent=4)
+
 
 # Creates new outputGroup dictionary (helper function)
 def create_output_group(name, keywords, subdirNames = None, subdirValueArrays = None):
@@ -101,10 +117,12 @@ def move_file_to_output(filePath, fileName):
             return True
     return False
 
+# Function to print current output groups
 def print_groups():
     print("Current output groups:")
     for group in outputGroups:
         print(f"Group Name: {group['name']}, Keywords: {group['keywords']}, Subdirs: {group['subdirs']}")
+
 
 # Main loop if no arguments are provided
 if(len(args) <= 1):
@@ -156,10 +174,4 @@ if(function == 'addGroup'):
 if(function == 'printGroups'):
     print_groups()
 
-
-
-
-
-
-            
 
