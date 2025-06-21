@@ -9,39 +9,38 @@ args = sys.argv
 if len(args) > 1:
     function = args[1]
 
-OUTPUT_FILE = "output_groups.json"
-
+OUTPUT_FILE = "personal_output_groups.json"
 
 # default outputGroups which can be modified
-outputGroups = [
-    {
-        "name": "output1",
-        "keywords": ["HW", "TextBook"],
-        "subdirs": {
-            "Math 20E": ["20E"],
-            "Math 103A": ["103A"],
-            "Math 154": ["154"]
-        }
-    },
-    {
-        "name": "output2",
-        "keywords": ["Important", "Alejandro"],
-        "subdirs": {}
-    },
-    {
-        "name": "output3",
-        "keywords": ["Misc", ".pdf", ".docx", ".txt"],
-        "subdirs": {}
-    }
-]
+# outputGroups = [
+#     {
+#         "name": "output1",
+#         "keywords": ["HW", "TextBook"],
+#         "subdirs": {
+#             "Math 20E": ["20E"],
+#             "Math 103A": ["103A"],
+#             "Math 154": ["154"]
+#         }
+#     },
+#     {
+#         "name": "output2",
+#         "keywords": ["Important", "Alejandro"],
+#         "subdirs": {}
+#     },
+#     {
+#         "name": "output3",
+#         "keywords": ["Misc", ".pdf", ".docx", ".txt"],
+#         "subdirs": {}
+#     }
+# ]
 # Load existing output groups from file if it exists
 def load_output_groups():
-
     if os.path.exists(OUTPUT_FILE):
         with open(OUTPUT_FILE, "r") as file:
             return json.load(file)
     else:
         return []
+
 
 # save new output group to file
 def save_output_groups():
@@ -76,6 +75,7 @@ def create_subdir_dict(keys = None, valueArrays = None):
 def add_output_group(name, keywords, subdirNames = None, subdirValueArrays = None):
     new_group = create_output_group(name, keywords, subdirNames, subdirValueArrays)
     outputGroups.append(new_group)
+    save_output_groups()
     print(f"Added new output group: {name}")
 
 
@@ -123,6 +123,7 @@ def print_groups():
     for group in outputGroups:
         print(f"Group Name: {group['name']}, Keywords: {group['keywords']}, Subdirs: {group['subdirs']}")
 
+outputGroups = load_output_groups()
 
 # Main loop if no arguments are provided
 if(len(args) <= 1):
@@ -136,7 +137,7 @@ if(len(args) <= 1):
     # Print the number of files moved
     print(f"\nTotal files moved: {moved_files}")
 
-if(function == 'addGroup'):
+elif(function == 'addGroup'):
     # Template:
     # add_output_group(name, keywords, subdirNames = None, subdirValueArrays = None)
 
@@ -171,7 +172,7 @@ if(function == 'addGroup'):
     print(f"Output group '{name}' added with keywords {keywords} and subdirs {subdirNames if subdirNames else 'None'}.")
     print_groups()
             
-if(function == 'printGroups'):
+elif(function == 'printGroups'):
     print_groups()
 
 
