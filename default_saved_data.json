@@ -32,8 +32,9 @@
                 "output3_keyword1",
                 "output3_keyword2"
             ],
-            "subdirs": {}
+            "subdirs": {
+            }
         }
     ],
-    "inputDirString": "C:\\Users\\aleja\\Desktop\\FileOrganizer"
+    "inputDirString": "C:/Users/user/Desktop/<DirectoryToBeOrganized>"
 }

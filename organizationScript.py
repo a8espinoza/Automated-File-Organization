@@ -2,7 +2,8 @@ import os, shutil, sys, json
 
 # All necessary variables:
 data = {}
-OUTPUT_FILE = "personal_saved_data.json"
+OUTPUT_FILE = "saved_data.json"
+BACKUP_FILE = "default_saved_data.json"
 # Default input directory string: C:/Users/user/Desktop/<DirectoryToBeOrganized>
 
 
@@ -17,7 +18,10 @@ def check_input_directory():
     if inputDirString == "C:/Users/user/Desktop/<DirectoryToBeOrganized>":
         inputDirString = input("\nPlease enter the path to the directory you want to organize: ")
         inputDir = os.path.abspath(inputDirString)
+        data["inputDirString"] = inputDirString
 
+        with open(OUTPUT_FILE, "w") as file:
+            json.dump(data, file, indent=4)
 
         print(f"Input directory set to: {inputDir}")
         print("Please rerun the script with desired function or without arguments to organize files.\n")
@@ -154,6 +158,39 @@ def print_groups():
     for group in outputGroups:
         print(f"Group Name: {group['name']}, Keywords: {group['keywords']}, Subdirs: {group['subdirs']}")
 
+# Function to change the input directory
+def changeDirectory():
+    global inputDir, inputDirString, data
+    inputDirString = input("Please enter the new path to the directory you want to organize: ")
+    inputDir = os.path.abspath(inputDirString)
+
+    if not os.path.exists(inputDir):
+        print(f"\nInput directory does not exist: {inputDir}")
+        sys.exit(1)
+    else:
+        print(f"\nInput directory set to: {inputDir}")
+
+    data["inputDirString"] = inputDirString
+
+    with open(OUTPUT_FILE, "w") as file:
+        json.dump(data, file, indent=4)
+
+
+# revert back to default outout groups and input directory:
+def revert_to_default_data():
+    global data, inputDirString, outputGroups
+    if os.path.exists(BACKUP_FILE):
+        with open(BACKUP_FILE, "r") as file:
+            data = json.load(file)
+    
+    inputDirString = data["inputDirString"]
+    outputGroups = data["outputGroups"]
+
+    with open(OUTPUT_FILE, "w") as file:
+        json.dump(data, file, indent=4)
+
+    print("Reverted to default settings.")
+    
 
 # Run preliminary functions:
 load_data()
@@ -211,6 +248,12 @@ elif(function == 'addGroup'):
 elif(function == 'printGroups'):
     print_groups()
 
+elif(function == 'changeDirectory'):
+    changeDirectory()
+
+elif(function == 'revert'):
+    revert_to_default_data()
+
 elif(function == 'help'):
     print("\n")
     print("Main Function: ")
@@ -221,7 +264,10 @@ elif(function == 'help'):
     print("Available Secondary functions:")
     print("1. addGroup - Add a new output group")
     print("2. printGroups - Print current output groups")
-    print("3. help - Show this help message\n")
+    print("3. help - Show this help message")
+    print("4. changeDirectory - Change the input directory to a new path")
+    print("5. revert - Revert to default settings")
+    print("\n")
     print("To use a secondary function, run the script with the function name as an argument like so: ")
     print("python organizationScript.py <function_name>\n")
 
