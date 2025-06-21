@@ -1,9 +1,10 @@
 import os, shutil, sys, json
 
-# add main file to organize here
-inputDirString = "C:/Users/aleja/Desktop/FileOrganizer"
-inputDir = os.path.abspath(inputDirString)
-OUTPUT_FILE = "personal_output_groups.json"
+# All necessary variables:
+data = {}
+OUTPUT_FILE = "personal_saved_data.json"
+# Default input directory string: C:/Users/user/Desktop/<DirectoryToBeOrganized>
+
 
 # import values from system arguments if provided
 args = sys.argv
@@ -11,11 +12,58 @@ if len(args) > 1:
     function = args[1]
 
 
-# Load existing output groups from file if it exists
-def load_output_groups():
+def check_input_directory():
+    global inputDir, inputDirString, data
+    if inputDirString == "C:/Users/user/Desktop/<DirectoryToBeOrganized>":
+        inputDirString = input("\nPlease enter the path to the directory you want to organize: ")
+        inputDir = os.path.abspath(inputDirString)
+
+
+        print(f"Input directory set to: {inputDir}")
+        print("Please rerun the script with desired function or without arguments to organize files.\n")
+        sys.exit(1)
+    else:
+        inputDir = os.path.abspath(inputDirString)
+        if not os.path.exists(inputDir):
+            print(f"\nInput directory does not exist: {inputDir}")
+            inputDirString = input("Please enter the path to the directory you want to organize: ")
+            inputDir = os.path.abspath(inputDirString)
+            
+            print(f"Input directory set to: {inputDir}")
+            print("Please rerun the script with desired function or without arguments to organize files.\n")
+            data["inputDirString"] = inputDirString
+
+            with open(OUTPUT_FILE, "w") as file:
+                json.dump(data, file, indent=4)
+                sys.exit(1)
+        else:
+            print(f"\nInput directory currently set to: {inputDir}")
+
+        data["inputDirString"] = inputDirString
+
+        with open(OUTPUT_FILE, "w") as file:
+            json.dump(data, file, indent=4)
+
+
+# Load existing data from file or create a new one if it doesn't exist
+def load_data():
+    global data
     if os.path.exists(OUTPUT_FILE):
         with open(OUTPUT_FILE, "r") as file:
-            return json.load(file)
+            data = json.load(file)
+    else:
+        data = {}
+        data["inputDirString"] = "C:/Users/user/Desktop/<DirectoryToBeOrganized>"
+        with open(OUTPUT_FILE, "w") as file:
+            json.dump(data, file, indent=4)
+
+# Load existing output groups from file if it exists
+def load_output_groups():
+    global data
+    if os.path.exists(OUTPUT_FILE):
+        with open(OUTPUT_FILE, "r") as file:
+            data = json.load(file)
+            return data.get("outputGroups", [])
     else:
         return []
 
@@ -23,7 +71,8 @@ def load_output_groups():
 # save new output group to file
 def save_output_groups():
     with open(OUTPUT_FILE, "w") as file:
-        json.dump(outputGroups, file, indent=4)
+        data["outputGroups"] = outputGroups
+        json.dump(data, file, indent=4)
 
 
 # Creates new outputGroup dictionary (helper function)
@@ -95,6 +144,7 @@ def move_file_to_output(filePath, fileName):
             shutil.move(filePath, os.path.join(base_output, fileName))
             print(f"Moved {fileName} to {base_output}")
             return True
+    # If no match found, remain in the input directory
     return False
 
 
@@ -104,8 +154,12 @@ def print_groups():
     for group in outputGroups:
         print(f"Group Name: {group['name']}, Keywords: {group['keywords']}, Subdirs: {group['subdirs']}")
 
-# load in output groups from file
+
+# Run preliminary functions:
+load_data()
+inputDirString = data.get("inputDirString")
 outputGroups = load_output_groups()
+check_input_directory()
 
 # Main loop if no arguments are provided
 if(len(args) <= 1):

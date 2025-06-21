@@ -1,0 +1,41 @@
+{
+    "outputGroups": [
+        {
+            "name": "schoolwork",
+            "keywords": [
+                "HW",
+                "Textbook"
+            ],
+            "subdirs": {
+                "Math 20E": [
+                    "20E"
+                ],
+                "Math 103A": [
+                    "103A"
+                ],
+                "Math 154": [
+                    "154"
+                ]
+            }
+        },
+        {
+            "name": "important documents",
+            "keywords": [
+                "Important",
+                "Alejandro"
+            ],
+            "subdirs": {}
+        },
+        {
+            "name": "miscellaneous",
+            "keywords": [
+                "Misc",
+                ".pdf",
+                ".docx",
+                ".txt"
+            ],
+            "subdirs": {}
+        }
+    ],
+    "inputDirString": "C:\\Users\\aleja\\Desktop\\FileOrganizer"
+}
