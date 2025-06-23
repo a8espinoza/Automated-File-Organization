@@ -12,8 +12,7 @@ def check_input_directory():
         with open(config.OUTPUT_FILE, "w") as file:
             json.dump(config.data, file, indent=4)
 
-        print(f"Input directory set to: {config.inputDir}")
-        print("Please rerun the script with desired function or without arguments to organize files.\n")
+        print(f"\nInput directory set to: {config.inputDir}")
         #sys.exit(1)
     else:
         config.inputDir = os.path.abspath(config.inputDirString)
@@ -23,7 +22,6 @@ def check_input_directory():
             config.inputDir = os.path.abspath(config.inputDirString)
             
             print(f"Input directory set to: {config.inputDir}")
-            print("Please rerun the script with desired function or without arguments to organize files.\n")
             config.data["inputDirString"] = config.inputDirString
 
             with open(config.OUTPUT_FILE, "w") as file:
@@ -176,7 +174,7 @@ def addGroup():
 
 # Function to print current output groups
 def print_groups():
-    print("Current output groups:")
+    print("\nCurrent output groups:")
     for group in config.outputGroups:
         print(f"Group Name: {group['name']}, Keywords: {group['keywords']}, Subdirs: {group['subdirs']}")
 
@@ -214,12 +212,11 @@ def revert_to_default_data():
 
 # Function to print help menu
 def printHelpMenu():
-    print("\n")
     print("Main Function: ")
     print("-  If no arguments are provided, the script will organize files \n"
         "      in the input directory based on existing output groups.")
-    print("-  To run the main function, simply run the script without arguments like so: \n"
-        "      python organizationScript.py\n")
+    print("-  To run the main function, simply press enter and the organizer \n"
+        "      will store all files in path as per the given groups\n")
     print("Available Secondary functions:")
     print("1. addGroup - Add a new output group")
     print("2. printGroups - Print current output groups")
@@ -227,5 +224,5 @@ def printHelpMenu():
     print("4. changeDirectory - Change the input directory to a new path")
     print("5. revert - Revert to default settings")
     print("\n")
-    print("To use a secondary function, run the script with the function name as an argument like so: ")
-    print("python organizationScript.py <function_name>\n")
+    print("To use a secondary function, type in the function as a single word like so and press enter: ")
+    print("<function_name>\n")

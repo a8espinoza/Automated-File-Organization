@@ -15,9 +15,10 @@ if len(args) > 1:
 if __name__ == "__main__":
     # Run preliminary functions:
     functions.load_data()
-    inputDirString = config.data.get("inputDirString")
-    outputGroups = functions.load_output_groups()
+    config.inputDirString = config.data.get("inputDirString")
+    config.outputGroups = functions.load_output_groups()
     functions.check_input_directory()
+    functions.printHelpMenu()
 
     while True:
         user_input = input("\nEnter a command (or 'exit' to quit): ")
