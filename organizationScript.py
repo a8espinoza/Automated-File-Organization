@@ -25,7 +25,7 @@ def check_input_directory():
 
         print(f"Input directory set to: {inputDir}")
         print("Please rerun the script with desired function or without arguments to organize files.\n")
-        sys.exit(1)
+        #sys.exit(1)
     else:
         inputDir = os.path.abspath(inputDirString)
         if not os.path.exists(inputDir):
@@ -39,7 +39,7 @@ def check_input_directory():
 
             with open(OUTPUT_FILE, "w") as file:
                 json.dump(data, file, indent=4)
-                sys.exit(1)
+                #sys.exit(1)
         else:
             print(f"\nInput directory currently set to: {inputDir}")
 
@@ -166,7 +166,7 @@ def changeDirectory():
 
     if not os.path.exists(inputDir):
         print(f"\nInput directory does not exist: {inputDir}")
-        sys.exit(1)
+        #sys.exit(1)
     else:
         print(f"\nInput directory set to: {inputDir}")
 
@@ -192,81 +192,87 @@ def revert_to_default_data():
     print("Reverted to default settings.")
     
 
-# Run preliminary functions:
-load_data()
-inputDirString = data.get("inputDirString")
-outputGroups = load_output_groups()
-check_input_directory()
+if __name__ == "__main__":
+    # Run preliminary functions:
+    load_data()
+    inputDirString = data.get("inputDirString")
+    outputGroups = load_output_groups()
+    check_input_directory()
 
-# Main loop if no arguments are provided
-if(len(args) <= 1):
-    moved_files = 0
-    for file in os.listdir(inputDir):
-        path = os.path.join(inputDir, file)
-        if os.path.isfile(path):
-            if move_file_to_output(path, file):
-                moved_files += 1
+    while True:
+        user_input = input("\nEnter a command (or 'exit' to quit): ")
+        if user_input.lower() == "exit":
+            break 
 
-    # Print the number of files moved
-    print(f"\nTotal files moved: {moved_files}")
+        # Main loop if no arguments are provided
+        if(len(user_input) <= 1):
+            moved_files = 0
+            for file in os.listdir(inputDir):
+                path = os.path.join(inputDir, file)
+                if os.path.isfile(path):
+                    if move_file_to_output(path, file):
+                        moved_files += 1
 
-elif(function == 'addGroup'):
-    if(len(args) != 2):
-        print("Please only provide the function name 'addGroup' to add a new output group.")
+            # Print the number of files moved
+            print(f"\nTotal files moved: {moved_files}")
 
-    name = input("Please enter the name of the new output group: ")
-    keywords = input("Please enter the keywords for the new output group as comma seperated valyes: ").replace(" ", "").split(',')
-    has_subdirs = input("Does this output group have subdirectories? (yes/no): ").strip().lower()
+        elif(user_input == 'addGroup'):
+            if(len(args) != 2):
+                print("Please only provide the function name 'addGroup' to add a new output group.")
 
-    if has_subdirs == 'yes':
-        numOfSubdirs = input("How many subdirectories does this output group have? ")
+            name = input("Please enter the name of the new output group: ")
+            keywords = input("Please enter the keywords for the new output group as comma seperated valyes: ").replace(" ", "").split(',')
+            has_subdirs = input("Does this output group have subdirectories? (yes/no): ").strip().lower()
 
-        for i in range(int(numOfSubdirs)):
-            subdirName = input(f"Please enter the name of subdirectory {i+1}: ")
-            subdirValues = input(f"Please enter the keywords for subdirectory {subdirName} as comma separated values: ").replace(" ", "").split(',')
-            
-            if i == 0:
-                subdirNames = [subdirName]
-                subdirValueArrays = [subdirValues]
+            if has_subdirs == 'yes':
+                numOfSubdirs = input("How many subdirectories does this output group have? ")
+
+                for i in range(int(numOfSubdirs)):
+                    subdirName = input(f"Please enter the name of subdirectory {i+1}: ")
+                    subdirValues = input(f"Please enter the keywords for subdirectory {subdirName} as comma separated values: ").replace(" ", "").split(',')
+                    
+                    if i == 0:
+                        subdirNames = [subdirName]
+                        subdirValueArrays = [subdirValues]
+                    else:
+                        subdirNames.append(subdirName)
+                        subdirValueArrays.append(subdirValues)
             else:
-                subdirNames.append(subdirName)
-                subdirValueArrays.append(subdirValues)
-    else:
-        subdirNames = None
-        subdirValueArrays = None
+                subdirNames = None
+                subdirValueArrays = None
 
-    # Now with all attained information, we can add the output group
-    add_output_group(name, keywords, subdirNames, subdirValueArrays)
+            # Now with all attained information, we can add the output group
+            add_output_group(name, keywords, subdirNames, subdirValueArrays)
 
-    #Let user know that the output group was added
-    print(f"Output group '{name}' added with keywords {keywords} and subdirs {subdirNames if subdirNames else 'None'}.")
-    print_groups()
-            
-elif(function == 'printGroups'):
-    print_groups()
+            #Let user know that the output group was added
+            print(f"Output group '{name}' added with keywords {keywords} and subdirs {subdirNames if subdirNames else 'None'}.")
+            print_groups()
+                    
+        elif(user_input == 'printGroups'):
+            print_groups()
 
-elif(function == 'changeDirectory'):
-    changeDirectory()
+        elif(user_input == 'changeDirectory'):
+            changeDirectory()
 
-elif(function == 'revert'):
-    revert_to_default_data()
+        elif(user_input == 'revert'):
+            revert_to_default_data()
 
-elif(function == 'help'):
-    print("\n")
-    print("Main Function: ")
-    print("-  If no arguments are provided, the script will organize files \n"
-        "      in the input directory based on existing output groups.")
-    print("-  To run the main function, simply run the script without arguments like so: \n"
-          "      python organizationScript.py\n")
-    print("Available Secondary functions:")
-    print("1. addGroup - Add a new output group")
-    print("2. printGroups - Print current output groups")
-    print("3. help - Show this help message")
-    print("4. changeDirectory - Change the input directory to a new path")
-    print("5. revert - Revert to default settings")
-    print("\n")
-    print("To use a secondary function, run the script with the function name as an argument like so: ")
-    print("python organizationScript.py <function_name>\n")
+        elif(user_input == 'help'):
+            print("\n")
+            print("Main Function: ")
+            print("-  If no arguments are provided, the script will organize files \n"
+                "      in the input directory based on existing output groups.")
+            print("-  To run the main function, simply run the script without arguments like so: \n"
+                "      python organizationScript.py\n")
+            print("Available Secondary functions:")
+            print("1. addGroup - Add a new output group")
+            print("2. printGroups - Print current output groups")
+            print("3. help - Show this help message")
+            print("4. changeDirectory - Change the input directory to a new path")
+            print("5. revert - Revert to default settings")
+            print("\n")
+            print("To use a secondary function, run the script with the function name as an argument like so: ")
+            print("python organizationScript.py <function_name>\n")
 
 
 
