@@ -28,7 +28,7 @@ def check_input_directory():
                 json.dump(config.data, file, indent=4)
                 #sys.exit(1)
         else:
-            print(f"\nInput directory currently set to: {config.inputDir}")
+            print(f"\nInput directory currently set to: {config.inputDir}\n")
 
         config.data["inputDirString"] = config.inputDirString
 
@@ -168,7 +168,7 @@ def addGroup():
     add_output_group(name, keywords, subdirNames, subdirValueArrays)
 
     #Let user know that the output group was added
-    print(f"Output group '{name}' added with keywords {keywords} and subdirs {subdirNames if subdirNames else 'None'}.")
+    print(f"\nOutput group '{name}' added with keywords {keywords} and subdirs {subdirNames if subdirNames else 'None'}.")
     print_groups()
 
 
@@ -210,9 +210,20 @@ def revert_to_default_data():
     print("Reverted to default settings.")
 
 
+# clear all groups
+def clear_groups():
+    config.outputGroups = []
+    config.data["outputGroups"] = []
+    
+    with open(config.OUTPUT_FILE, "w") as file:
+        json.dump(config.data, file, indent=4)
+    
+    print("\nAll output groups cleared. Please add new groups using 'addGroup' function.")
+
+
 # Function to print help menu
 def printHelpMenu():
-    print("Main Function: ")
+    print("\nMain Function: ")
     print("-  If no arguments are provided, the script will organize files \n"
         "      in the input directory based on existing output groups.")
     print("-  To run the main function, simply press enter and the organizer \n"
@@ -223,6 +234,7 @@ def printHelpMenu():
     print("3. help - Show this help message")
     print("4. changeDirectory - Change the input directory to a new path")
     print("5. revert - Revert to default settings")
+    print("6. clearGroups - Clear all output groups")
     print("\n")
     print("To use a secondary function, type in the function as a single word like so and press enter: ")
-    print("<function_name>\n")
+    print("<function_name>")

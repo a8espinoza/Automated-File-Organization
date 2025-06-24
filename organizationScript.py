@@ -49,6 +49,9 @@ if __name__ == "__main__":
         elif(user_input == 'revert'):
             functions.revert_to_default_data()
 
+        elif(user_input == 'clearGroups'):
+            functions.clear_groups()
+
         elif(user_input == 'help'):
             functions.printHelpMenu()
 
