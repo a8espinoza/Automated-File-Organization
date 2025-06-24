@@ -105,8 +105,11 @@ def checkPathExists(path):
 # returns True if filename contains any of the keywords
 def matches_any_keyword(filename, keywords):
     name, ext = os.path.splitext(filename)
+    name = name.lower()
+    ext = ext.lower()
     #return true if at least one keyword is a match
     for keyword in keywords:
+        keyword = keyword.lower()
         if (keyword in name) or (keyword == ext):
             return True
     #else:
