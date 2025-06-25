@@ -17,6 +17,7 @@ Available Secondary functions:
 3. help - Show this help message
 4. changeDirectory - Change the input directory to a new path
 5. revert - Revert to default settings
+6. clearGroups - Clear all output groups
 
 
 To use a secondary function, type in the function as a single word like so and press enter:
@@ -26,3 +27,10 @@ Alternatively: <br />
 -  you may edit the saved_data.JSON file directy to change both the output groups
       and the input directory. To do this, you can reference both default_saved_data
       and personal_saved_data to get an idea of how to fill in saved_data
+
+
+## Download instructions:
+
+To use this organization tool, download and extract the zip file onto the desktop
+or whereever you keep your programs. Then, run the file named organizationScript.exe
+and follow the instructions above

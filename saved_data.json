@@ -1,37 +1,39 @@
 {
     "outputGroups": [
         {
-            "name": "homework",
+            "name": "output1",
             "keywords": [
-                "homework",
-                "hw",
-                "assignment"
-            ],
-            "subdirs": {}
-        },
-        {
-            "name": "photos",
-            "keywords": [
-                ".png",
-                ".jpg"
-            ],
-            "subdirs": {}
-        },
-        {
-            "name": "other",
-            "keywords": [
-                "Alejandro",
-                "Important",
-                "misc",
-                ".pdf"
+                "output1_keyword1",
+                "output1_keyword2"
             ],
             "subdirs": {
-                "important documents": [
-                    "Alejandro",
-                    "important"
+                "class1": [
+                    "class1_subkey1",
+                    "class1_subkey2"
                 ]
             }
+        },
+        {
+            "name": "output2",
+            "keywords": [
+                "output2_keyword1",
+                "output2_keyword2"
+            ],
+            "subdirs": {
+                "subdirectory1": [
+                    "subdirectory1_subkey1",
+                    "subdirectory1_subkey2"
+                ]
+            }
+        },
+        {
+            "name": "output3",
+            "keywords": [
+                "output3_keyword1",
+                "output3_keyword2"
+            ],
+            "subdirs": {}
         }
     ],
-    "inputDirString": "C:/Users/aleja/Desktop/FileOrganizer"
+    "inputDirString": "C:/Users/user/Desktop/<DirectoryToBeOrganized>"
 }

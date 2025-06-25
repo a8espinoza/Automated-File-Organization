@@ -146,6 +146,8 @@ def addGroup():
     if(len(org_script.args) != 2):
         print("Please only provide the function name 'addGroup' to add a new output group.")
 
+    # collecting information for the new output group
+    # add_output_group(name, keywords, subdirNames, subdirValueArrays)
     name = input("Please enter the name of the new output group: ")
     keywords = input("Please enter the keywords for the new output group as comma seperated valyes: ").replace(" ", "").split(',')
     has_subdirs = input("Does this output group have subdirectories? (yes/no): ").strip().lower()
@@ -210,7 +212,7 @@ def revert_to_default_data():
     with open(config.OUTPUT_FILE, "w") as file:
         json.dump(config.data, file, indent=4)
 
-    print("Reverted to default settings.")
+    print("\nReverted to default settings.")
 
 
 # clear all groups

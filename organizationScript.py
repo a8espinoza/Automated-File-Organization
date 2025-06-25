@@ -3,13 +3,6 @@ import organizationScriptFunctions as functions
 import config
 
 
-
-# import values from system arguments if provided
-args = sys.argv
-if len(args) > 1:
-    function = args[1]
-
-
     
 # Main loop when running script in terminal
 if __name__ == "__main__":
@@ -20,13 +13,16 @@ if __name__ == "__main__":
     functions.check_input_directory()
     functions.printHelpMenu()
 
+    # ask the user for input until they exit
     while True:
         user_input = input("\nEnter a command (or 'exit' to quit): ")
-        if user_input.lower() == "exit":
+        original_input = user_input 
+        user_input = user_input.lower().strip().replace(" ", "")
+        if (user_input == "exit" or user_input == "quit"):
             break 
 
-        # Main loop if no arguments are provided
-        if(len(user_input) <= 1):
+        # Main loop if no arguments are provided (organize all files in the input directory):
+        if(len(user_input) < 1):
             moved_files = 0
             for file in os.listdir(config.inputDir):
                 path = os.path.join(config.inputDir, file)
@@ -37,23 +33,27 @@ if __name__ == "__main__":
             # Print the number of files moved
             print(f"\nTotal files moved: {moved_files}")
 
-        elif(user_input == 'addGroup'):
+        # all other commands:
+        elif(user_input == 'addgroup'):
             functions.addGroup()
                     
-        elif(user_input == 'printGroups'):
+        elif(user_input == 'printgroups'):
             functions.print_groups()
 
-        elif(user_input == 'changeDirectory'):
+        elif(user_input == 'changedirectory'):
             functions.changeDirectory()
 
         elif(user_input == 'revert'):
             functions.revert_to_default_data()
 
-        elif(user_input == 'clearGroups'):
+        elif(user_input == 'cleargroups'):
             functions.clear_groups()
 
         elif(user_input == 'help'):
             functions.printHelpMenu()
+        
+        else:
+            print(f"\nUnknown command: {original_input}\nPlease try again or type 'help' for a list of commands.")
 
 
 
