@@ -143,9 +143,6 @@ def move_file_to_output(filePath, fileName):
 
 # Function to add a new output group
 def addGroup():
-    if(len(org_script.args) != 2):
-        print("Please only provide the function name 'addGroup' to add a new output group.")
-
     # collecting information for the new output group
     # add_output_group(name, keywords, subdirNames, subdirValueArrays)
     name = input("Please enter the name of the new output group: ")
@@ -182,6 +179,10 @@ def print_groups():
     print("\nCurrent output groups:")
     for group in config.outputGroups:
         print(f"Group Name: {group['name']}, Keywords: {group['keywords']}, Subdirs: {group['subdirs']}")
+
+# Function to print current input directory
+def print_input_directory():
+    print(f"\nCurrent input directory: {config.inputDirString}")
 
 # Function to change the input directory
 def changeDirectory():
@@ -225,6 +226,15 @@ def clear_groups():
     
     print("\nAll output groups cleared. Please add new groups using 'addGroup' function.")
 
+# Developer Function to check if current input directory is valid
+def check_input_directory_validity():
+    if not os.path.exists(config.inputDir):
+        print(f"\nInput directory does not exist: {config.inputDir}")
+        return False
+    else:
+        print(f"\nInput directory is valid: {config.inputDir}")
+        return True
+
 
 # Function to print help menu
 def printHelpMenu():
@@ -236,10 +246,11 @@ def printHelpMenu():
     print("Available Secondary functions:")
     print("1. addGroup - Add a new output group")
     print("2. printGroups - Print current output groups")
-    print("3. help - Show this help message")
+    print("3. printDirectory - Print current input directory")
     print("4. changeDirectory - Change the input directory to a new path")
     print("5. revert - Revert to default settings")
     print("6. clearGroups - Clear all output groups")
+    print("7. help - Print this help menu")
     print("\n")
     print("To use a secondary function, type in the function as a single word like so and press enter: ")
     print("<function_name>")

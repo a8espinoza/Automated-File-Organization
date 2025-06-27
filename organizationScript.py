@@ -6,19 +6,26 @@ import config
     
 # Main loop when running script in terminal
 if __name__ == "__main__":
-    # Run preliminary functions:
+    # Run preliminary functions that only need to be run once:
     functions.load_data()
     config.inputDirString = config.data.get("inputDirString")
     config.outputGroups = functions.load_output_groups()
-    functions.check_input_directory()
     functions.printHelpMenu()
 
     # ask the user for input until they exit
     while True:
+        # preliminary checks that must run every time:
+        functions.check_input_directory()
+
+
+        # Get user input and process it
         user_input = input("\nEnter a command (or 'exit' to quit): ")
         original_input = user_input 
         user_input = user_input.lower().strip().replace(" ", "")
-        if (user_input == "exit" or user_input == "quit"):
+
+        # Check for exit commands and break
+        exitCommands = ['exit', 'quit', '0', 'e', 'q', 'x']
+        if (user_input in exitCommands):
             break 
 
         # Main loop if no arguments are provided (organize all files in the input directory):
@@ -34,23 +41,29 @@ if __name__ == "__main__":
             print(f"\nTotal files moved: {moved_files}")
 
         # all other commands:
-        elif(user_input == 'addgroup'):
+        elif(user_input == 'addgroup' or user_input == '1'):
             functions.addGroup()
                     
-        elif(user_input == 'printgroups'):
+        elif(user_input == 'printgroups' or user_input == '2'):
             functions.print_groups()
 
-        elif(user_input == 'changedirectory'):
+        elif(user_input == 'printdirectory' or user_input == '3'):
+            functions.print_input_directory()
+
+        elif(user_input == 'changedirectory'  or user_input == '4'):
             functions.changeDirectory()
 
-        elif(user_input == 'revert'):
+        elif(user_input == 'revert' or user_input == '5'):
             functions.revert_to_default_data()
 
-        elif(user_input == 'cleargroups'):
+        elif(user_input == 'cleargroups' or user_input == '6'):
             functions.clear_groups()
 
-        elif(user_input == 'help'):
+        elif(user_input == 'help' or user_input == '7'):
             functions.printHelpMenu()
+
+        elif(user_input == 'checkdirectory' or user_input == '8'):
+            functions.check_input_directory()
         
         else:
             print(f"\nUnknown command: {original_input}\nPlease try again or type 'help' for a list of commands.")
