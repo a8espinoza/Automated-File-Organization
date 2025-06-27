@@ -62,8 +62,11 @@ if __name__ == "__main__":
         elif(user_input == 'help' or user_input == '7'):
             functions.printHelpMenu()
 
-        elif(user_input == 'checkdirectory' or user_input == '8'):
-            functions.check_input_directory()
+        elif(user_input == 'directoryhelp' or user_input == '8'):
+            functions.print_input_directory_directions()
+
+        elif(user_input == 'checkdirectory'):
+            functions.check_input_directory_validity()
         
         else:
             print(f"\nUnknown command: {original_input}\nPlease try again or type 'help' for a list of commands.")
