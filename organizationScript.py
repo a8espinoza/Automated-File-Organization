@@ -9,6 +9,7 @@ if __name__ == "__main__":
     # Run preliminary functions that only need to be run once:
     functions.load_data()
     config.inputDirString = config.data.get("inputDirString")
+    config.inputDir = os.path.abspath(config.inputDirString)
     config.outputGroups = functions.load_output_groups()
     functions.printHelpMenu()
 

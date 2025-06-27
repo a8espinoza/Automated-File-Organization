@@ -210,6 +210,7 @@ def revert_to_default_data():
             config.data = json.load(file)
     
     config.inputDirString = config.data["inputDirString"]
+    config.inputDir = os.path.abspath(config.inputDirString)
     config.outputGroups = config.data["outputGroups"]
 
     with open(config.OUTPUT_FILE, "w") as file:
